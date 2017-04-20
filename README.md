@@ -27,27 +27,36 @@ Don't forget to `require 'sleep2'` first.
 ### Do math with sleep.
 
 ```ruby
->> sleep = Sleep2.new(2) # no sleep when instantiating
+>> sleep = Sleep2[2] # no sleep when instantiating
 #=> #<Sleep2:0x2afc2eaef970>
 >> sleep # sleeps for 2 seconds
 #=> #<Sleep2:0x2afc2eaef970>
->> sleep * 2 # sleeps twice longer than it should
-#=> 4
->> sleep / 2 # sleeps half the time
-#=> 1
->> sleep ** 3 # sleeps for 2^3 seconds
-#=> 8
+>> delay = sleep * 2 # instantiate new sleep object (therefore no sleeping yet)
+#=> #<Sleep2:0x2afc217b09d0>
+>> delay # sleeps twice longer than sleep
+#=> #<Sleep2:0x2afc217b09d0>
 ```
 
 ### Compare sleep with integer (in seconds) or another of its type
 
 ```ruby
->> sleep if sleep > 3 # not sleeping at all
+>> sleep if sleep > 3 # not sleeping at all since sleep duration is 2 seconds
 #=> nil
->> delay = Sleep2.new(3) # no sleep when instantiating
+>> delay = Sleep2[3] # no sleep when instantiating
 #=> #<Sleep2:0x2afc2eb138c0>
 >> delay > sleep ? delay : sleep # sleeps for 3 seconds
 #=> #<Sleep2:0x2afc2eb138c0>
+```
+
+### Change current instance duration
+
+```ruby
+>> freeze = Sleep2[3] # no sleep when instantiating
+#=> #<Sleep2:0x2afc2262c2c0>
+>> freeze[4] # no sleep when changing duration
+#=> 4.0
+>> freeze # sleeps for 4 seconds
+#=> #<Sleep2:0x2afc2262c2c0>
 ```
 
 ## Contributing

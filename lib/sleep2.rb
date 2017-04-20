@@ -7,12 +7,18 @@ class Sleep2
     new duration
   end
 
-  attr_accessor :duration, :sleep2
+  attr_accessor :duration, :sleep_proc
   attr_writer :new
 
   def initialize duration
-    @duration = duration.to_f
-    @new      = true
+    if duration.class.ancestors.include?(Numeric)
+      @duration = duration.to_f
+    elsif duration.class == self.class
+      @duration = duration.duration.to_f
+    else
+      raise TypeError, "can't convert #{duration.class} into time interval"
+    end
+    @new = true
   end
 
   def new?
@@ -20,16 +26,20 @@ class Sleep2
   end
 
   def inspect
-    # Avoid sleeping the first time it is called (the moment of instantiation)
+    # Avoids sleeping the first time it is called (the moment of instantiation)
     unless new?
-      self.sleep2.call
+      self.sleep_proc.call
     else
-      self.new   = false
-      self.sleep2 = proc { sleep duration }
+      self.new        = false
+      self.sleep_proc = proc { sleep duration }
     end
   end
 
-  # Make sleep instance can be calculated with integer
+  def [] new_duration
+    self.duration = new_duration
+  end
+
+  # Creates new sleep instance by calculating it with integer
   [:*, :/, :+, :-, :%, :**].each do |m|
     define_method m do |num|
       num = num.duration if num.kind_of? self.class
@@ -37,7 +47,7 @@ class Sleep2
     end
   end
 
-  # Make sleep instance comparable with another object of its type and integer
+  # Makes sleep instance comparable with another object of its type and integer
   def <=>(other)
     if other.kind_of? self.class
       self.duration <=> other.duration
