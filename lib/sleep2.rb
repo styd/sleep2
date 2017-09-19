@@ -10,13 +10,14 @@ class Sleep2
   attr_accessor :duration, :sleep_proc
   attr_writer :new
 
-  def initialize duration
-    if duration.class.ancestors.include?(Numeric)
-      @duration = duration.to_f
-    elsif duration.class == self.class
-      @duration = duration.duration.to_f
+  def initialize time_interval
+    if time_interval.class.ancestors.include?(Numeric)
+      self.duration = time_interval.to_f
+    elsif time_interval.class == self.class
+      self.duration = time_interval.duration.to_f
     else
-      raise TypeError, "can't convert #{duration.class} into time interval"
+      msg = "can't convert #{time_interval.class} into time interval"
+      raise TypeError, msg
     end
     @new = true
   end
@@ -40,7 +41,7 @@ class Sleep2
   end
 
   # Creates new sleep instance by calculating it with integer
-  [:*, :/, :+, :-, :%, :**].each do |m|
+  %i[* / + - % **].each do |m|
     define_method m do |num|
       num = num.duration if num.kind_of? self.class
       self.class[ duration.public_send(m, num) ]
