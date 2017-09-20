@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Sleep2 do
+describe Sleep2 do
   it "has a version number" do
     expect(Sleep2::VERSION).not_to be nil
   end
@@ -61,21 +61,27 @@ RSpec.describe Sleep2 do
     end
 
     context "with integers" do
-      it "is like doing math with all operands of type integers" do
-        an_integer = 2
+      it "is like doing math with all operands of type integer" do
+        an_integer = 1
         sleep = Sleep2[duration]
-        delay = sleep * an_integer
-        expect(duration * an_integer).to eq(delay.duration)
+        Sleep2::MATH_OPERATORS.each do |op|
+          expect(duration.public_send(op, an_integer)).to(
+            eq(sleep.public_send(op, an_integer).duration)
+          )
+        end
       end
     end
 
     context "with sleep2 objects" do
-      it "is like doing math with all operands of type integers" do
-        time_interval = 3
+      it "is like doing math with all operands of type integer" do
+        time_interval = 1
         freeze = Sleep2[time_interval]
         sleep  = Sleep2[duration]
-        delay  = sleep + freeze
-        expect(duration + time_interval).to eq(delay.duration)
+        Sleep2::MATH_OPERATORS.each do |op|
+          expect(duration.public_send(op, time_interval)).to(
+            eq(sleep.public_send(op, freeze).duration)
+          )
+        end
       end
     end
   end

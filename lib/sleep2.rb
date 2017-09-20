@@ -1,6 +1,8 @@
 require "sleep2/version"
 
 class Sleep2
+  MATH_OPERATORS = %i[* / + - % **]
+
   include Comparable
 
   def self.[] duration
@@ -41,7 +43,7 @@ class Sleep2
   end
 
   # Creates new sleep instance by calculating it with integer
-  %i[* / + - % **].each do |m|
+  MATH_OPERATORS.each do |m|
     define_method m do |num|
       num = num.duration if num.kind_of? self.class
       self.class[ duration.public_send(m, num) ]
