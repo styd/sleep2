@@ -1,4 +1,4 @@
-# Sleep2
+# Sleep2 [![Build Status](https://travis-ci.org/styd/sleep2.svg?branch=master)](https://travis-ci.org/styd/sleep2)
 
 Ruby sleep with extra magical stuff. These extra stuff will be useful when you
 are developing an algorithm with some kind of delay patterns such as in
