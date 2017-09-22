@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in sleep2.gemspec
-# gemspec
+gemspec
 
 group :development do
   gem "bundler", "~> 1.14"
