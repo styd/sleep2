@@ -9,8 +9,7 @@ class Sleep2
     new duration
   end
 
-  attr_accessor :duration, :sleep_proc
-  attr_writer :new
+  attr_accessor :duration
 
   def initialize time_interval
     if time_interval.class.ancestors.include?(Numeric)
@@ -21,20 +20,14 @@ class Sleep2
       msg = "can't convert #{time_interval.class} into time interval"
       raise TypeError, msg
     end
-    @new = true
-  end
-
-  def new?
-    @new
   end
 
   def inspect
     # Avoids sleeping the first time it is called (the moment of instantiation)
-    unless new?
-      self.sleep_proc.call
-    else
-      self.new        = false
-      self.sleep_proc = proc { sleep duration }
+    slept = go_to_sleep rescue nil
+    return if slept
+    def go_to_sleep
+      sleep duration
     end
   end
 

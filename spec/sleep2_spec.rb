@@ -11,9 +11,8 @@ describe Sleep2 do
     start = `date +%s`.to_i
     delay = Sleep2[duration]
 
-    # rspec stops ruby from calling `inspect` to return value when instantiating
     # sleep2 needs the `inspect` to be called
-    delay.inspect # similar to the result of Sleep2[duration] or Sleep2.new(duration) outside rspec
+    delay.inspect # it's the same as just calling `delay` outside rspec
 
     finish = `date +%s`.to_i
     expect((finish - start).abs).to be <= 1
@@ -23,10 +22,8 @@ describe Sleep2 do
     start = `date +%s`.to_i
     delay = Sleep2[duration]
 
-    # rspec stops ruby from calling `inspect` to return value when instantiating
     # sleep2 needs the `inspect` to be called
-    delay.inspect # similar to the result of Sleep2[duration] or Sleep2.new(duration) outside rspec
-    delay.inspect # really calling it to run the sleep for the duration specified
+    delay.inspect # it's the same as just calling `delay` outside rspec
 
     finish = `date +%s`.to_i
     expect((duration - (finish - start)).abs).to be <= 1
@@ -35,10 +32,6 @@ describe Sleep2 do
   it "does not sleep when changing duration" do
     start = `date +%s`.to_i
     delay = Sleep2[duration]
-
-    # rspec stops ruby from calling `inspect` to return value when instantiating
-    # sleep2 needs the `inspect` to be called
-    delay.inspect # similar to the result of Sleep2[duration] or Sleep2.new(duration) outside rspec
 
     delay[duration + 3]
 
@@ -51,10 +44,7 @@ describe Sleep2 do
       start = `date +%s`.to_i
       sleep = Sleep2[duration]
 
-      # rspec stops ruby from calling `inspect` to return value when instantiating
-      # sleep2 needs the `inspect` to be called
       delay = sleep * 2
-      delay.inspect # similar to the result of Sleep2[duration] or Sleep2.new(duration) outside rspec
 
       finish   = `date +%s`.to_i
       expect((finish - start).abs).to be <= 1
