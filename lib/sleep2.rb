@@ -5,13 +5,13 @@ class Sleep2
 
   include Comparable
 
-  def self.[] duration
+  def self.[](duration)
     new duration
   end
 
   attr_accessor :duration
 
-  def initialize time_interval
+  def initialize(time_interval)
     if time_interval.class.ancestors.include?(Numeric)
       self.duration = time_interval.to_f
     elsif time_interval.class == self.class
@@ -31,7 +31,7 @@ class Sleep2
     end
   end
 
-  def [] new_duration
+  def [](new_duration)
     self.duration = new_duration
   end
 
