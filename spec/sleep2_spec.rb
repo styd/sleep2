@@ -5,14 +5,14 @@ describe Sleep2 do
     expect(Sleep2::VERSION).not_to be nil
   end
 
-  let!(:duration) { rand 1..3 }
+  let!(:duration) { rand(1..3) }
 
   it "does not sleep when instantiating" do
     start = `date +%s`.to_i
     delay = Sleep2[duration]
 
     # sleep2 needs the `inspect` to be called
-    delay.inspect # it's the same as just calling `delay` outside rspec
+    delay.inspect # this is what is called after instantiation outside rspec
 
     finish = `date +%s`.to_i
     expect((finish - start).abs).to be <= 1
@@ -23,6 +23,7 @@ describe Sleep2 do
     delay = Sleep2[duration]
 
     # sleep2 needs the `inspect` to be called
+    delay.inspect # this is what is called after instantiation outside rspec
     delay.inspect # it's the same as just calling `delay` outside rspec
 
     finish = `date +%s`.to_i
@@ -37,6 +38,27 @@ describe Sleep2 do
 
     finish = `date +%s`.to_i
     expect((finish - start).abs).to be <= 1
+  end
+
+  it "works for multiple sleeps" do
+    start = `date +%s`.to_i
+
+    duration1 = rand(1..3)
+    delay  = Sleep2[duration]
+
+    # sleep2 needs the `inspect` to be called
+    delay.inspect # this is what is called after instantiation outside rspec
+    delay.inspect # it's the same as just calling `delay` outside rspec
+
+    duration2 = rand(1..3)
+    freeze = Sleep2[duration2]
+
+    # sleep2 needs the `inspect` to be called
+    freeze.inspect # this is what is called after instantiation outside rspec
+    freeze.inspect # it's the same as just calling `freeze` outside rspec
+
+    finish = `date +%s`.to_i
+    expect(((duration1 + duration2) - (finish - start)).abs).to be <= 1
   end
 
   context "when doing math" do

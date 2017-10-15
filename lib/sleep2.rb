@@ -20,6 +20,7 @@ class Sleep2
       msg = "can't convert #{time_interval.class} into time interval"
       raise TypeError, msg
     end
+    undef go_to_sleep if defined? go_to_sleep
   end
 
   def inspect
