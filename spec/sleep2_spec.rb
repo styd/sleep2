@@ -58,7 +58,7 @@ describe Sleep2 do
     freeze.inspect # it's the same as just calling `freeze` outside rspec
 
     finish = `date +%s`.to_i
-    expect(((duration1 + duration2) - (finish - start)).abs).to be <= 1
+    expect(((duration1 + duration2) - (finish - start)).abs).to be <= 2
   end
 
   context "when doing math" do
